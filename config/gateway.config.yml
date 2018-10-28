@@ -9,8 +9,7 @@ apiEndpoints:
   authenticationAPI:
     host: ${HOST}
     paths:
-      - '/api/Token'
-      - '/api/autorization'
+      - '/authentication/*'
   paymentAPI:
     host: ${HOST}
     paths:
@@ -21,6 +20,7 @@ apiEndpoints:
     paths:
       - '/ip'
       - '/meuip'
+      - '/teste/*'
 serviceEndpoints:
   authenticationService:
     url: 'http://localhost:52016'
@@ -54,9 +54,9 @@ pipelines:
       - expression:
         - action:
             jscode: |
-              if (req.url.startsWith('/meuip')) {
-                const slug = req.url.substr('/discussions'.length);
-                req.url = '/ip';
+              if (req.url.startsWith('/teste')) {
+                const newURL = req.url.replace(/\/teste/, '');
+                req.url = newURL;
               }
       - proxy:
         - action:
